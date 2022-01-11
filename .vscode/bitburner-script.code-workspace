@@ -1,0 +1,55 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		}
+  ],
+  "settings": {
+    "typescript.validate.enable": false,
+    "javascript.validate.enable": false,
+    "eslint.validate": [
+      "typescript",
+      "typescriptreact"
+    ],
+    "eslint.workingDirectories": [
+      "./src"
+    ],
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    },
+
+    "files.autoSave": "off",
+    "autoSnippet.snippets": [
+      {
+        "pattern": "**/*.ts",
+        "snippet": "ns-template"
+      }
+    ],
+  },
+  "launch": {
+    "configurations": [
+      {
+        "name": "Launch BitBurner with Edge DevTools",
+        "request": "launch",
+        "type": "vscode-edge-devtools.debug",
+        "url": "https://danielyxie.github.io/bitburner/",
+          "webRoot": "${workspaceRoot}/src",
+          "sourceMapPathOverrides": {
+              "http://localhost:8000/sources/*": "${workspaceRoot}/src/*"
+          }
+      },
+      {
+        "name": "Attach to Steam Bitburner Render Process",
+        "address": "127.0.0.1",
+        "port": 9222,
+        "request": "attach",
+        "type": "pwa-chrome",
+        "timeout": 15000,
+        "webRoot": "${workspaceRoot}/src",
+        "sourceMapPathOverrides": {
+          "http://localhost:8000/sources/*": "${workspaceRoot}/src/*"
+        }
+      }
+    ]
+  }
+}

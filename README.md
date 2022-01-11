@@ -1,5 +1,9 @@
+# Overview
+- [This repo](https://github.com/wizlee/bitburner-scripts) is adapted from [this template](https://github.com/bitburner-official/vscode-template), 
+
 ## Extension Recommendations
 [vscode-bitburner-connector](https://github.com/bitburner-official/bitburner-vscode) ([vscode extension marketplace](https://marketplace.visualstudio.com/items?itemName=bitburner.bitburner-vscode-integration)) to upload your files into the game
+   - this seems to only valid for steam, when playing bitburner in browser don't observe any feature this extension provides
 
 [vscode-eslint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) to use live linting in editor
 
@@ -17,7 +21,7 @@ npm install
 npm run defs
 ```
 
-## How to use this template
+## How to use this
 Write all your typescript source code in the `/src` directory
 
 Ensure you are using absolute paths to .js files in your imports or else the game will not recognize your import paths.  
@@ -31,6 +35,7 @@ Press F1 and Select `Bitburner: Enable File Watcher` to enable auto uploading to
 
 If you run `watcher.js` in game, the game will automatically detect file changes and restart the associated scripts
 
-## Deugging
+## Debugging
 
 For debugging bitburner on Steam you will need to enable a remote debugging port. This can be done by rightclicking bitburner in your Steam library and selecting properties. There you need to add `--remote-debugging-port=9222` [Thanks @DarkMio]
+  - refer to [@DarkMio repo](https://github.com/DarkMio/bitburner-ts) for detailed intructions. 

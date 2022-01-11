@@ -26,6 +26,8 @@
       "@ns": [
         "../NetscriptDefinitions.d.ts"
       ]
-    }
+    },
+    "forceConsistentCasingInFileNames": true,
+    "importHelpers": true,
   }
 }
