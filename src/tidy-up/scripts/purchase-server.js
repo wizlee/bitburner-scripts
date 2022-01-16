@@ -49,28 +49,80 @@ function printServerCost(ns) {
 /** @param {NS} ns **/
 async function purchaseServerUntilLimit(ns) {
     ns.print(`======================================`);
+    ns.print(`Buying Server with max RAM until limit`);
+    ns.print(`======================================`);
+    const currHost = ns.getHostname();
+    if (currHost != "home") {
+        ns.print(`this script is designed to run in home. `);
+        return;
+    }
+    const ram = ns.getPurchasedServerMaxRam(); // 2^20 as of 16/01/2022
+    let i = ns.getPurchasedServers().length;
+    const deployScript = "simple-distributed-hack.js";
+    const hackScript = "basic-hack.js";
+    // anything significantly less than 1000 will cause the game to crash / hang
+    // presumably because of the huge number of running scripts.
+    // Example:
+    // if threadnum=100, you will have 25 * (2^20 / 240) ~= 109,226 scripts running at once.
+    // This is excluding scripts running on home and non player own servers.
+    // At the time of the hang, I have ~109,226 + ~3,000 = ~112,226 scripts running.
+    const threadNum = 1000;
+
+    const maxServerNum = ns.getPurchasedServerLimit();
+    while (i < maxServerNum) {
+        let moneyAvail = ns.getServerMoneyAvailable(currHost);
+        let purchasedServerCost = ns.getPurchasedServerCost(ram);
+        // Check if we have enough money to purchase a server
+        if (moneyAvail > purchasedServerCost) {
+            // If we have enough money, then:
+            //  1. Purchase the server
+            //  2. Deploy hacking script to the server using max thread possible
+            //  3. Increment our iterator to indicate that we've bought a new server
+            let destHost = await ns.purchaseServer(`${currHost}-${i}`, ram);
+            ns.tprint(`>>>>>> Purchased Server: ${destHost}`);
+            await ns.scp(hackScript, currHost, destHost);
+            await ns.exec(deployScript, currHost, 1, destHost, threadNum);
+            i++;
+            await ns.sleep(4000); // to avoid wasting time on hacking empty n00dles
+        } else {
+            ns.print(`moneyAvail: ${moneyAvail}`);
+            ns.print(`purchaseServerCost: ${purchasedServerCost}`);
+            await ns.sleep(10000);
+        }
+    }
+    ns.print(`======================================`);
+    ns.print(``);
+    ns.print(``);
+}
+
+/** @param {NS} ns **/
+/** use this to purchase and run hack script for server with less than 10TB **/
+async function oldPurchaseServerUntilLimit(ns) {
+    ns.print(`======================================`);
     ns.print(`Buying Server until limit`);
     ns.print(`======================================`);
-    if (ns.args.length < 2) {
-		ns.tprint("This script perform 3 functions: display server cost, purchase servers until limit and delete all servers.");
-		ns.tprint("");
-		ns.tprint("Currently you are performing purchase server until limit. ");
+    const currHost = ns.getHostname();
+    if (currHost != "home") {
+        ns.print(`this script is designed to run in home. `);
+        return;
+    }
+    if (ns.args.length < 1) {
+        ns.tprint("This script perform 3 functions: display server cost, purchase servers until limit and delete all servers.");
+        ns.tprint("");
+        ns.tprint("Currently you are performing purchase server until limit. ");
 
-		ns.tprint(`Pass the required args: run ${ns.getScriptName()} RAM HACKTARGET(s)`);
-		ns.tprint("Example:");
-		ns.tprint(`> run ${ns.getScriptName()} 512 harakiri-sushi max-hardware`);
-		return;
-	}
+        ns.tprint(`Pass the required args: run ${ns.getScriptName()} RAM HACKTARGET(s)`);
+        ns.tprint("Example:");
+        ns.tprint(`> run ${ns.getScriptName()} 512 n00dles max-hardware`);
+    }
     const ram = Number.parseInt(ns.args[0]); // 512
     let i = ns.getPurchasedServers().length;
-	const deployScript = "deploy-single-with-max-thread.js";
+    const deployScript = "deploy-single-with-max-thread.js";
     const hackScript =  "basic-hack.js";
-	const hackTargets = ns.args.slice(1);
+    const hackTargets = ns.args.slice(1);
     let currTarget = hackTargets[0];
 
-    const currHost = "home"; // ns.getHostname();
     const maxServerNum = ns.getPurchasedServerLimit();
-    
     while (i < maxServerNum) {
         let moneyAvail = ns.getServerMoneyAvailable(currHost);
         let purchasedServerCost = ns.getPurchasedServerCost(ram);
