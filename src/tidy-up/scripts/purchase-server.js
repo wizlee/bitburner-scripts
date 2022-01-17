@@ -58,9 +58,9 @@ async function purchaseServerUntilLimit(ns) {
     }
     const ram = ns.getPurchasedServerMaxRam(); // 2^20 as of 16/01/2022
     let i = ns.getPurchasedServers().length;
-    const deployScript = "simple-distributed-hack.js";
+	const deployScript = "simple-distributed-hack.js";
     const hackScript =  "basic-hack.js";
-    // anything significantly less than 1000 will cause the game to crash / hang
+	// anything significantly less than 1000 will cause the game to crash / hang
     // presumably because of the huge number of running scripts.
     // Example:
     // if threadnum=100, you will have 25 * (2^20 / 240) ~= 109,226 scripts running at once.
@@ -108,19 +108,19 @@ async function earlyGamePurchaseServerUntilLimit(ns) {
         return;
     }
     if (ns.args.length < 1) {
-        ns.tprint("This script perform 3 functions: display server cost, purchase servers until limit and delete all servers.");
-        ns.tprint("");
-        ns.tprint("Currently you are performing purchase server until limit. ");
+		ns.tprint("This script perform 3 functions: display server cost, purchase servers until limit and delete all servers.");
+		ns.tprint("");
+		ns.tprint("Currently you are performing purchase server until limit. ");
 
-        ns.tprint(`Pass the required args: run ${ns.getScriptName()} RAM HACKTARGET(s)`);
-        ns.tprint("Example:");
-        ns.tprint(`> run ${ns.getScriptName()} 512 n00dles max-hardware`);
-    }
+		ns.tprint(`Pass the required args: run ${ns.getScriptName()} RAM HACKTARGET(s)`);
+		ns.tprint("Example:");
+		ns.tprint(`> run ${ns.getScriptName()} 512 n00dles max-hardware`);
+	}
     const ram = Number.parseInt(ns.args[0]); // 512
     let i = ns.getPurchasedServers().length;
-    const deployScript = "deploy-single-with-max-thread.js";
+	const deployScript = "deploy-single-with-max-thread.js";
     const hackScript =  "basic-hack.js";
-    const hackTargets = ns.args.slice(1);
+	const hackTargets = ns.args.slice(1);
     let currTarget = hackTargets[0];
 
     const maxServerNum = ns.getPurchasedServerLimit();
@@ -139,12 +139,13 @@ async function earlyGamePurchaseServerUntilLimit(ns) {
 
             // hack the list of target in sequence
             if (hackTargets.length > 1) {
-                if (ram > 1000) {
-                    currTarget = hackTargets.join(',');
-                }
-                else {
-                    currTarget = hackTargets[i % hackTargets.length];
-                }
+                currTarget = hackTargets.join(',');
+                // if (ram > 1000) {
+                //     currTarget = hackTargets.join(',');
+                // }
+                // else {
+                //     currTarget = hackTargets[i % hackTargets.length];
+                // }
             }
             await ns.exec(deployScript, currHost, 1, destHost, hackScript, currTarget);
             i++;

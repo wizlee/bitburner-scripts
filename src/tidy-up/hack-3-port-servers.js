@@ -1,5 +1,5 @@
 /** @param {NS} ns **/
-// requires hacking level ~400 - ~520
+// requires hacking level ~400 - ~520 IF going to hack its money
 export async function main(ns) {
     const hackScript = "basic-hack.js";
     const deployScript = "deploy-single-with-max-thread.js";
@@ -9,8 +9,8 @@ export async function main(ns) {
         "summit-uni",
         "netlink",
         "I.I.I.I",
-        "millenium-fitness",
-        "rho-construction"];
+        "millenium-fitness",       
+        "rho-construction"]; 
 
     const serversWithoutRam = ["comptek"];
 
@@ -23,7 +23,7 @@ export async function main(ns) {
         await ns.relaysmtp(serv);
         await ns.nuke(serv);
         await ns.exec(deployScript, currHost, 1, serv, hackScript, "joesguns");
-    }
+    } 
 
     // only get root access for servers without ram
     for (var i = 0; i < serversWithoutRam.length; i++) {

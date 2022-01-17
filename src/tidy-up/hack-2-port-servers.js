@@ -20,7 +20,7 @@ export async function main(ns) {
         await ns.ftpcrack(serv);
         await ns.nuke(serv);
         await ns.exec(deployScript, currHost, 1, serv, hackScript, "joesguns");
-    }
+    } 
 
     // only get root access for servers without ram
     for (var i = 0; i < serversWithoutRam.length; i++) {
