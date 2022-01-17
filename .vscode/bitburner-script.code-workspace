@@ -25,8 +25,8 @@
         "snippet": "ns-template"
       }
     ],
-    "prettier.tabWidth": 4,
     "editor.tabSize": 4,
+    "prettier.tabWidth": 4, // to match bitburner editor
   },
   "launch": {
     "configurations": [
