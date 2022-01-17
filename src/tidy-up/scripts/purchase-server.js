@@ -59,7 +59,7 @@ async function purchaseServerUntilLimit(ns) {
     const ram = ns.getPurchasedServerMaxRam(); // 2^20 as of 16/01/2022
     let i = ns.getPurchasedServers().length;
     const deployScript = "simple-distributed-hack.js";
-    const hackScript = "basic-hack.js";
+    const hackScript =  "basic-hack.js";
     // anything significantly less than 1000 will cause the game to crash / hang
     // presumably because of the huge number of running scripts.
     // Example:
@@ -84,7 +84,8 @@ async function purchaseServerUntilLimit(ns) {
             await ns.exec(deployScript, currHost, 1, destHost, threadNum);
             i++;
             await ns.sleep(4000); // to avoid wasting time on hacking empty n00dles
-        } else {
+        }
+        else {
             ns.print(`moneyAvail: ${moneyAvail}`);
             ns.print(`purchaseServerCost: ${purchasedServerCost}`);
             await ns.sleep(10000);
@@ -97,7 +98,7 @@ async function purchaseServerUntilLimit(ns) {
 
 /** @param {NS} ns **/
 /** use this to purchase and run hack script for server with less than 10TB **/
-async function oldPurchaseServerUntilLimit(ns) {
+async function earlyGamePurchaseServerUntilLimit(ns) {
     ns.print(`======================================`);
     ns.print(`Buying Server until limit`);
     ns.print(`======================================`);
@@ -202,6 +203,7 @@ async function deleteAllServer(ns) {
 /** @param {NS} ns **/
 export async function main(ns) {
     // printServerCost(ns);
-    await purchaseServerUntilLimit(ns);
+    // await purchaseServerUntilLimit(ns);
+    await earlyGamePurchaseServerUntilLimit(ns);
     // await deleteAllServer(ns);
 }
