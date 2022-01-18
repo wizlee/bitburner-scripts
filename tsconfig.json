@@ -15,7 +15,8 @@
         "baseUrl": "src/",
         "paths": {
             "/*": ["*"],
-            "@ns": ["../NetscriptDefinitions.d.ts"]
+            "@ns": ["../NetscriptDefinitions.d.ts"],
+            "@types": ["../types.d.ts"]
         },
         "forceConsistentCasingInFileNames": true,
         "importHelpers": true
