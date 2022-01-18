@@ -1,8 +1,8 @@
 {
-	"folders": [
-		{
-			"path": ".."
-		}
+    "folders": [
+        {
+            "path": ".."
+        }
   ],
   "settings": {
     "typescript.validate.enable": false,
@@ -27,6 +27,10 @@
     ],
     "editor.tabSize": 4,
     "prettier.tabWidth": 4, // to match bitburner editor
+
+    // Use Non-relative imports so the game can find files in its fake directory structure
+    "javascript.preferences.importModuleSpecifier": "non-relative",
+    "typescript.preferences.importModuleSpecifier": "non-relative",
   },
   "launch": {
     "configurations": [
