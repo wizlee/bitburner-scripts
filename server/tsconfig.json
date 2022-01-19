@@ -19,22 +19,10 @@
       "node"
     ],
     "declaration": false,
-    "plugins": [
-      {
-        "transform": "./transformer/rewrite-imports.ts",
-        "replacements": [
-          {
-            "regex": "^(.*)$",
-            "replace": "/$1.js"
-          }
-        ]
-      }
-    ],
     "forceConsistentCasingInFileNames": true,
     "importHelpers": true,
   },
   "include": [
     "./*"
   ],
-  "exclude": [],
 }

@@ -1,7 +1,7 @@
 {
-    "name": "bitburner-typescript-template",
+    "name": "bitburner-typescript",
     "version": "1.0.0",
-    "description": "",
+    "description": "JS/TS Scripts, Automatic Code Sync and Debugging Configurations for the programming-based incremental game - BitBurner. Forked from https://github.com/bitburner-official/vscode-template.",
     "main": "index.js",
     "scripts": {
         "clean": "rm -rf ./dist",
@@ -11,13 +11,13 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/SlyCedix/bitburner-typescript-template.git"
+        "url": "git+https://github.com/wizlee/bitburner-scripts.git"
     },
-    "author": "SlyCedix",
+    "author": "Wiz Lee",
     "bugs": {
-        "url": "https://github.com/SlyCedix/bitburner-typescript-template/issues"
+        "url": "https://github.com/wizlee/bitburner-scripts/issues"
     },
-    "homepage": "https://github.com/SlyCedix/bitburner-typescript-template#readme",
+    "homepage": "https://github.com/wizlee/bitburner-scripts#readme",
     "devDependencies": {
         "@types/node": "^16.4.3",
         "@typescript-eslint/eslint-plugin": "^4.28.4",
