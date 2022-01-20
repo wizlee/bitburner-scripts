@@ -13,7 +13,16 @@ export async function main(ns) {
         "unitalife",
         "zb-institute",
         "omnia",
-        "solaris"];
+        "solaris",
+        "run4theh111z",
+        "titan-labs",
+        "fulcrumtech",
+        "microdyne",
+        "powerhouse-fitness",
+        "helios",
+        "vitalife",
+        "omnitek",
+        "blade",];
 
     await ns.run(nukeAllScript, 1);
 
@@ -21,6 +30,6 @@ export async function main(ns) {
         var serv = serversWithRam[i];
 
         await ns.scp(hackScript, serv);
-        await ns.exec(deployScript, currHost, 1, serv, hackScript, "sigma-cosmetics");
+        await ns.exec(deployScript, currHost, 1, serv, hackScript, "hong-fang-tea");
     }
 }

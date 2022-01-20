@@ -56,7 +56,8 @@ async function purchaseServerUntilLimit(ns) {
         ns.print(`this script is designed to run in home. `);
         return;
     }
-    const ram = ns.getPurchasedServerMaxRam(); // 2^20 as of 16/01/2022
+    // const ram = ns.getPurchasedServerMaxRam(); // 2^20 as of 16/01/2022
+    const ram = 32768; 
     let i = ns.getPurchasedServers().length;
 	const deployScript = "simple-distributed-hack.js";
     const hackScript =  "basic-hack.js";
@@ -204,7 +205,7 @@ async function deleteAllServer(ns) {
 /** @param {NS} ns **/
 export async function main(ns) {
     // printServerCost(ns);
-    // await purchaseServerUntilLimit(ns);
-    await earlyGamePurchaseServerUntilLimit(ns);
-    // await deleteAllServer(ns);
+    await deleteAllServer(ns);
+    // await earlyGamePurchaseServerUntilLimit(ns);
+    await purchaseServerUntilLimit(ns);
 }

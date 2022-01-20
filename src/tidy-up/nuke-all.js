@@ -46,6 +46,8 @@ export async function main(ns) {
         "univ-energy",
         "unitalife",
         "zb-def",
+        "run4theh111z",
+        "."
     ];
     const servers5Ports = [
         "darkweb",
@@ -60,6 +62,18 @@ export async function main(ns) {
         "defcomm",
         "taiyang-digital",
         "solaris",
+        "titan-labs",
+        "fulcrumtech",
+        "microdyne",
+        "stormtech",
+        "kuai-gong",
+        "nwo",
+        "clarkinc",
+        "powerhouse-fitness",
+        "helios",
+        "vitalife",
+        "omnitek",
+        "blade",
     ];
 
     const allServers = [
