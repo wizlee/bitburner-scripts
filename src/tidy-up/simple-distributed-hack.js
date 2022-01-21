@@ -52,6 +52,8 @@ export async function main(ns) {
         "univ-energy",
         "unitalife",
         "zb-def",
+        "run4theh111z",
+        ".",
         "zb-institute",
         "omnia",
         "zeus-med",
@@ -63,12 +65,25 @@ export async function main(ns) {
         "defcomm",
         "taiyang-digital",
         "solaris",
+        "titan-labs",
+        "fulcrumtech",
+        "microdyne",
+        "stormtech",
+        "kuai-gong",
+        "nwo",
+        "clarkinc",
+        "powerhouse-fitness",
+        "helios",
+        "vitalife",
+        "omnitek",
+        "blade",
     ];
     const hackScript = "basic-hack.js";
     const scriptRam = ns.getScriptRam(ns.getScriptName());
     // const bufferRam = 32;
     const totalScriptRam = scriptRam * threadCnt;
-    const scriptDelayInterval = 4000/servers.length;
+    // increase delay from 4s/59 to 60s/59 to decrease the possibility of game hanging
+    const scriptDelayInterval = 60000/servers.length; 
     const estScriptRunTime = (currRam/totalScriptRam) * scriptDelayInterval;
     ns.tprint(`>>>> This script will complete in approx. ${estScriptRunTime/1000} seconds`);
     

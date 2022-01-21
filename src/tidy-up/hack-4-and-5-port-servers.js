@@ -30,6 +30,6 @@ export async function main(ns) {
         var serv = serversWithRam[i];
 
         await ns.scp(hackScript, serv);
-        await ns.exec(deployScript, currHost, 1, serv, hackScript, "hong-fang-tea");
+        await ns.exec(deployScript, currHost, 1, serv, hackScript, "nectar-net");
     }
 }
