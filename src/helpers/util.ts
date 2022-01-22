@@ -1,4 +1,3 @@
-import { NS } from "@ns";
 import { Route } from "@types";
 import { GLOBAL } from "./const";
 
@@ -9,90 +8,80 @@ import { GLOBAL } from "./const";
  */
 export class Util {
     private static instance?: Util;
-    private static ns: NS;
+    private ns: NS;
+    servers: string[] = ["home"];
+    routes: Route = { home: ["home"] };
 
-    private constructor() {
+    private constructor(ns: NS) {
         if (Util.instance)
             throw new Error("Use Singleton.getInstance instead of new.");
-    }
-
-    public static getInstance(ns: NS): Util {
         this.ns = ns;
-        return this.instance || (this.instance = new Util());
     }
 
-    async findServer(ns: NS, serverToFind: string): Promise<void> {
-        const servers = await Util.getAllServers(ns);
-        if (servers.includes(serverToFind)) {
-            ns.tprint(
-                `[${Util.localeHHMMSS()}] Path to ${serverToFind} found:`
+    static async getInstance(ns: NS): Promise<Util> {
+        if (!Util.instance) {
+            Util.instance = new Util(ns);
+        }
+
+        if (!(await Util.instance.scanServers())) {
+            throw new Error("Unable to scan servers.");
+        }
+        return Util.instance;
+    }
+
+    findServer(serverToFind: string): void {
+        if (this.servers.includes(serverToFind)) {
+            this.ns.tprint(
+                `[${this.localeHHMMSS()}] Path to ${serverToFind} found:`
             );
-            ns.tprint(Util.printPathToServer(serverToFind));
+            this.ns.tprint(this.printPathToServer(serverToFind));
         } else {
-            ns.tprint(
-                `[${Util.localeHHMMSS()}] Unable to find the path to ${serverToFind}`
+            this.ns.tprint(
+                `[${this.localeHHMMSS()}] Unable to find the path to ${serverToFind}`
             );
         }
     }
 
-    async listSpecialServers(ns: NS): Promise<void> {
-        if (await scanServers(ns)) {
-            ns.tprint(`[${localeHHMMSS()}] Special servers:`);
-            ns.tprint(`* CSEC (CyberSec faction)`);
-            ns.tprint(printPathToServer(ns, "CSEC") + "; hack;");
-            ns.tprint("");
-            ns.tprint(`* avmnite-02h (NiteSec faction)`);
-            ns.tprint(printPathToServer(ns, "avmnite-02h") + "; hack;");
-            ns.tprint("");
-            ns.tprint(`* I.I.I.I (The Black Hand faction)`);
-            ns.tprint(printPathToServer(ns, "I.I.I.I") + "; hack;");
-            ns.tprint("");
-            ns.tprint(`* run4theh111z (Bitrunners faction)`);
-            ns.tprint(printPathToServer(ns, "run4theh111z") + "; hack;");
-            ns.tprint("");
-            ns.tprint(`* w0r1d_d43m0n`);
-            ns.tprint(printPathToServer(ns, "w0r1d_d43m0n") + "; hack;");
-            ns.tprint("");
-        }
+    listSpecialServers(): void {
+        this.ns.tprint(`[${this.localeHHMMSS()}] Special servers:`);
+        this.ns.tprint(`* CSEC (CyberSec faction)`);
+        this.ns.tprint(this.printPathToServer("CSEC") + "; hack;");
+        this.ns.tprint("");
+        this.ns.tprint(`* avmnite-02h (NiteSec faction)`);
+        this.ns.tprint(this.printPathToServer("avmnite-02h") + "; hack;");
+        this.ns.tprint("");
+        this.ns.tprint(`* I.I.I.I (The Black Hand faction)`);
+        this.ns.tprint(this.printPathToServer("I.I.I.I") + "; hack;");
+        this.ns.tprint("");
+        this.ns.tprint(`* run4theh111z (Bitrunners faction)`);
+        this.ns.tprint(this.printPathToServer("run4theh111z") + "; hack;");
+        this.ns.tprint("");
+        this.ns.tprint(`* w0r1d_d43m0n`);
+        this.ns.tprint(this.printPathToServer("w0r1d_d43m0n") + "; hack;");
+        this.ns.tprint("");
     }
 
-    async printContractsLocation(ns: NS): void {
-        const servers = getAllServers(ns);
-        ns.tprint(
-            `[${localeHHMMSS()}] Looking for servers with coding contracts:`
+    printContractsLocation(): void {
+        this.ns.tprint(
+            `[${this.localeHHMMSS()}] Looking for servers with coding contracts:`
         );
-        servers.forEach((hostname) => {
-            const files = ns.ls(hostname);
+        this.servers.forEach((hostname) => {
+            const files = this.ns.ls(hostname);
             if (files && files.length) {
                 const contract = files.find((file) => file.includes(".cct"));
 
                 if (contract) {
-                    ns.tprint("");
-                    ns.tprint(
+                    this.ns.tprint("");
+                    this.ns.tprint(
                         `* ${hostname} has a coding contract(s)! Connect using:`
                     );
-                    ns.tprint(
-                        printPathToServer(servers, hostname) +
-                            `; run ${contract};`
+                    this.ns.tprint(
+                        `${this.printPathToServer(hostname)}; run ${contract};`
                     );
                 }
             }
         });
-        ns.tprint("");
-    }
-
-    /**
-     * Scan and return all servers in the game.
-     *
-     * @returns If success, returns an array of all servers in the game.
-     *         If failure, returns an empty array.
-     */
-    async getAllServers(ns: NS): Array<string> {
-        let servers: Array<string> = [];
-
-        if (await scanServers(ns)) servers = ns.peek(GLOBAL.SERVERS);
-
-        return servers;
+        this.ns.tprint("");
     }
 
     /**
@@ -100,36 +89,34 @@ export class Util {
      *
      * @returns `true` if success, `false` if encountered any errors.
      */
-    async scanServers(ns: NS): boolean {
+    async scanServers(): Promise<boolean> {
         let success = true;
-        if (isServersScanned(ns)) {
+        if (this.isServersScanned()) {
             return success;
         }
 
-        const servers: Array<string> = ["home"];
-        const routes: Route = { home: ["home"] };
         // Scan all servers and keep track of the path to get to them
-        ns.disableLog("scan");
-        for (let i = 0, server; i < servers.length; i++) {
-            for (server of ns.scan(servers[i])) {
-                if (!servers.includes(server)) {
-                    servers.push(server);
-                    routes[server] = routes[servers[i]].slice();
-                    routes[server].push(server);
+        this.ns.disableLog("scan");
+        for (let i = 0, server; i < this.servers.length; i++) {
+            for (server of this.ns.scan(this.servers[i])) {
+                if (!this.servers.includes(server)) {
+                    this.servers.push(server);
+                    this.routes[server] = this.routes[this.servers[i]].slice();
+                    this.routes[server].push(server);
                 }
             }
         }
 
-        if (!(await ns.tryWritePort(GLOBAL.SERVERS, servers))) {
-            ns.tprint(
-                `[${localeHHMMSS()}] Fail to write the new servers data to the port`
+        if (!(await this.ns.tryWritePort(GLOBAL.SERVERS, this.servers))) {
+            this.ns.tprint(
+                `[${this.localeHHMMSS()}] Fail to write the new servers data to the port`
             );
             success = false;
         }
 
-        if (!(await ns.tryWritePort(GLOBAL.ROUTES, routes))) {
-            ns.tprint(
-                `[${localeHHMMSS()}] Fail to write the new routes data to the port`
+        if (!(await this.ns.tryWritePort(GLOBAL.ROUTES, this.routes))) {
+            this.ns.tprint(
+                `[${this.localeHHMMSS()}] Fail to write the new routes data to the port`
             );
             success = false;
         }
@@ -137,47 +124,40 @@ export class Util {
         return success;
     }
 
-    async isServersScanned(ns: NS): boolean {
-        const routesPortData: Route | string = ns.peek(GLOBAL.ROUTES);
-        const serversPortData: Array<string> | string = ns.peek(GLOBAL.SERVERS);
+    isServersScanned(): boolean {
+        const routesPortData: Route | string = this.ns.peek(GLOBAL.ROUTES);
+        const serversPortData: string[] | string = this.ns.peek(GLOBAL.SERVERS);
 
         if (
             routesPortData === "NULL PORT DATA" ||
             serversPortData === "NULL PORT DATA"
         ) {
             return false;
+        } else {
+            this.servers = serversPortData as string[];
+            this.routes = routesPortData as Route;
+            return true;
         }
-        return true;
     }
 
     /**
      * This function is used to print the path to a server in the form of a single line command.
-     * **It ASSUMES that the servers are already scanned**.
      *
-     * @param ns
      * @param serverToFind name of the server to find
      * @returns a single line command to connect to the server.
      *          If the server is not found, returns an empty string.
      */
-    async printPathToServer(ns: NS, serverToFind: string): string {
+    printPathToServer(serverToFind: string): string {
         let pathToServer = "";
         if (serverToFind === "home") return serverToFind;
 
         const jumps = [];
-        const servers: Array<string> = ns.peek(GLOBAL.SERVERS);
-        const routes: Route = ns.peek(GLOBAL.ROUTES);
 
-        let isParentHome = servers.parent === "home";
-        let currentServer = serverToFind;
-
+        let currentParent = this.getServerParent(serverToFind);
+        const isParentHome = () => {return currentParent === "home";};
         while (!isParentHome) {
-            jumps.push(servers[currentServer].parent);
-
-            if (servers[currentServer].parent !== "home") {
-                currentServer = servers[currentServer].parent;
-            } else {
-                isParentHome = true;
-            }
+            jumps.push(currentParent);
+            currentParent = this.getServerParent(currentParent);
         }
 
         jumps.unshift(serverToFind);
@@ -190,6 +170,15 @@ export class Util {
         return pathToServer;
     }
 
+    getServerParent(server: string): string {
+        for (const parent in this.routes) {
+            if (this.routes[parent].includes(server)) {
+                return parent;
+            }
+        }
+        throw new Error("Server parent not found. Are you sure the server exists?");
+    }
+
     terminalCommand(message: string): void {
         const docs = globalThis["document"];
         const terminalInput: HTMLInputElement | null = docs.getElementById(
@@ -197,7 +186,9 @@ export class Util {
         ) as HTMLInputElement;
         if (terminalInput) {
             terminalInput.value = message;
-            const handler = Object.keys(terminalInput)[1] as keyof HTMLInputElement;
+            const handler = Object.keys(
+                terminalInput
+            )[1] as keyof HTMLInputElement;
             (<HTMLInputElement>terminalInput[handler])?.onchange?.({
                 target: terminalInput,
             } as unknown as Event);
@@ -248,4 +239,5 @@ export class Util {
         );
     }
 }
+
 

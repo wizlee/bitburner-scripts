@@ -1,4 +1,4 @@
-# Overview
+## Overview
 - [This repo](https://github.com/wizlee/bitburner-scripts) is adapted from [this template](https://github.com/bitburner-official/vscode-template), 
 
 ## Extension Recommendations
@@ -31,6 +31,20 @@ To update your Netscript Definitions, run `npm run defs` in a terminal
 Press F1 and Select `Bitburner: Enable File Watcher` to enable auto uploading to the game
 
 If you run `watcher.js` in game, the game will automatically detect file changes and restart the associated scripts
+
+## NS2 Script Guide
+Excerpt from [this official documentation](https://github.com/danielyxie/bitburner/blob/dev/doc/source/netscript/netscriptjs.rst).
+
+The following ns functions return a promise thus expects a `await`
+    hack
+    grow
+    weaken
+    sleep
+    prompt
+    wget
+    scp
+    write
+    writePort
 
 ## Debugging
 
