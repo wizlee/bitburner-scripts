@@ -12,7 +12,7 @@ module.exports = {
         ecmaFeatures: {
             experimentalObjectRestSpread: true,
         },
-        project: ["./tsconfig.json"],
+        project: ["./tsconfig.json", "./server/tsconfig.json"],
         tsconfigRootDir: __dirname,
     },
     plugins: ["@typescript-eslint"],

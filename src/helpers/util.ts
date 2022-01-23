@@ -1,5 +1,4 @@
-import { Route } from "@types";
-import { GLOBAL } from "./const";
+import { PORT } from "./const";
 
 /**
  * @description
@@ -107,14 +106,14 @@ export class Util {
             }
         }
 
-        if (!(await this.ns.tryWritePort(GLOBAL.SERVERS, this.servers))) {
+        if (!(await this.ns.tryWritePort(PORT.SERVERS, this.servers))) {
             this.ns.tprint(
                 `[${this.localeHHMMSS()}] Fail to write the new servers data to the port`
             );
             success = false;
         }
 
-        if (!(await this.ns.tryWritePort(GLOBAL.ROUTES, this.routes))) {
+        if (!(await this.ns.tryWritePort(PORT.ROUTES, this.routes))) {
             this.ns.tprint(
                 `[${this.localeHHMMSS()}] Fail to write the new routes data to the port`
             );
@@ -125,8 +124,8 @@ export class Util {
     }
 
     isServersScanned(): boolean {
-        const routesPortData: Route | string = this.ns.peek(GLOBAL.ROUTES);
-        const serversPortData: string[] | string = this.ns.peek(GLOBAL.SERVERS);
+        const routesPortData: Route | string = this.ns.peek(PORT.ROUTES);
+        const serversPortData: string[] | string = this.ns.peek(PORT.SERVERS);
 
         if (
             routesPortData === "NULL PORT DATA" ||

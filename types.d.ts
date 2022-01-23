@@ -8,3 +8,9 @@ export interface ServerData {
 export interface Route {
     [key: string]: Array<string>;
 }
+
+export interface FilesMetadata {
+    lastChange: number;
+    lastChangeString: string;
+    fileList: string[];
+}
