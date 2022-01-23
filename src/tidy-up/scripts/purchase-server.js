@@ -56,8 +56,8 @@ async function purchaseServerUntilLimit(ns) {
         ns.print(`this script is designed to run in home. `);
         return;
     }
-    const ram = ns.getPurchasedServerMaxRam(); // 2^20 as of 16/01/2022
-    // const ram = 131072;
+    // const ram = ns.getPurchasedServerMaxRam(); // 2^20 as of 16/01/2022
+    const ram = 131072;
     let i = ns.getPurchasedServers().length;
 	const deployScript = "simple-distributed-hack.js";
     const hackScript =  "basic-hack.js";
@@ -67,7 +67,7 @@ async function purchaseServerUntilLimit(ns) {
     // if threadnum=100, you will have 25 * (2^20 / 240) ~= 109,226 scripts running at once.
     // This is excluding scripts running on home and non player own servers.
     // At the time of the hang, I have ~109,226 + ~3,000 = ~112,226 scripts running.
-    const threadNum = 500;
+    const threadNum = 300;
 
     const maxServerNum = ns.getPurchasedServerLimit();
     while (i < maxServerNum) {
@@ -184,7 +184,7 @@ async function deleteAllServer(ns) {
         }
     }
 
-    // this foreach loop will cause Runtime exceptio even though it should work
+    // this foreach loop will cause Runtime exception even though it should work
     // purchasedServerList.forEach((serverName) => {
     //     let scriptKilled = false;
     //     if (ns.scriptRunning(runningScript, serverName)) {
