@@ -206,6 +206,6 @@ async function deleteAllServer(ns) {
 export async function main(ns) {
     // printServerCost(ns);
     await deleteAllServer(ns);
-    // await earlyGamePurchaseServerUntilLimit(ns);
-    await purchaseServerUntilLimit(ns);
+    await earlyGamePurchaseServerUntilLimit(ns);
+    // await purchaseServerUntilLimit(ns);
 }

@@ -1,6 +1,16 @@
 /** @param {NS} ns **/
 export async function main(ns) {
-    await killAllRemoteScripts(ns);
+    // await killAllRemoteScripts(ns);
+    // const runningScript = "basic-hack.js";
+    // const serverName = "home";
+    // let scriptKilled = false;
+    // if (ns.scriptRunning(runningScript, serverName)) {
+    //     scriptKilled = await ns.scriptKill(runningScript, serverName);
+    // }
+    // if (scriptKilled)  {
+    //     ns.print(`${runningScript} killed in ${serverName}`);
+    // }
+
     const currHost = ns.getHostname();
     if (currHost != "home") {
         ns.print(`this script is designed to run in home. `);
@@ -17,28 +27,29 @@ export async function main(ns) {
     const deployScript = "simple-distributed-hack.js";
     const hackScript =  "basic-hack.js";
     const serversToRestart = [
-        "home-3",
-        "home-4",
-        "home-5",
-        "home-6",
-        "home-7",
-        "home-8",
-        "home-9",
-        "home-10",
-        "home-11",
-        "home-12",
-        "home-13",
-        "home-14",
-        "home-15",
-        "home-16",
-        "home-17",
-        "home-18",
-        "home-19",
-        "home-20",
-        "home-21",
-        "home-22",
-        "home-23",
-        "home-24",
+        "home",
+        // "home-3",
+        // "home-4",
+        // "home-5",
+        // "home-6",
+        // "home-7",
+        // "home-8",
+        // "home-9",
+        // "home-10",
+        // "home-11",
+        // "home-12",
+        // "home-13",
+        // "home-14",
+        // "home-15",
+        // "home-16",
+        // "home-17",
+        // "home-18",
+        // "home-19",
+        // "home-20",
+        // "home-21",
+        // "home-22",
+        // "home-23",
+        // "home-24",
     ];
 
     const threadNum = 250;
