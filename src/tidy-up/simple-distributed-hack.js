@@ -13,7 +13,7 @@ export async function main(ns) {
     // removes this if condition check to allow script to 
     // 'resume' running when back online
     if (currRam < 1000) {
-        ns.tprint(`this script is designed to run in server that has more than 10TB. `);
+        ns.tprint(`this script is designed to run in server that has more than 1TB. `);
         return;
     }
 
@@ -28,25 +28,25 @@ export async function main(ns) {
         "neo-net",
         "zer0",
         "max-hardware",
-        // "iron-gym",
-        // "silver-helix",
-        // "phantasy",
-        // "omega-net",
-        // "johnson-ortho",
-        // "crush-fitness",
-        // "the-hub",
-        // "catalyst",
-        // "comptek",
-        // "rothman-uni",
-        // "summit-uni",
-        // "netlink",
-        // // "millenium-fitness",
-        // // "rho-construction",
-        // "aevum-police",
-        // // "alpha-ent",
+        "iron-gym",
+        "silver-helix",
+        "phantasy",
+        "omega-net",
+        "johnson-ortho",
+        "crush-fitness",
+        "the-hub",
+        "catalyst",
+        "comptek",
+        "rothman-uni",
+        "summit-uni",
+        "netlink",
+        "millenium-fitness",
+        "rho-construction",
+        "aevum-police",
+        "alpha-ent",
         // "syscore",
         // "lexo-corp",
-        // // "snap-fitness",
+        // "snap-fitness",
         // "global-pharm",
         // "nova-med",
         // "univ-energy",
