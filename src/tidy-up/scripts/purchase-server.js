@@ -80,7 +80,7 @@ async function purchaseServerUntilLimit(ns) {
             //  2. Deploy hacking script to the server using max thread possible
             //  3. Increment our iterator to indicate that we've bought a new server
             let destHost = await ns.purchaseServer(`${currHost}-${i}`, ram);
-            ns.tprint(`>>>>>> Purchased Server: ${destHost}`);
+            ns.tprint(`>>> Purchased Server: ${destHost}`);
             await ns.scp(hackScript, currHost, destHost);
             await ns.exec(deployScript, currHost, 1, destHost, threadNum);
             i++;
@@ -135,7 +135,7 @@ async function earlyGamePurchaseServerUntilLimit(ns) {
             //  2. Deploy hacking script to the server using max thread possible
             //  3. Increment our iterator to indicate that we've bought a new server
             let destHost = await ns.purchaseServer(`${currHost}-${i}`, ram);
-            ns.print(`>>>>>> Purchased Server: ${destHost}`);
+            ns.print(`>>> Purchased Server: ${destHost}`);
             await ns.scp(hackScript, currHost, destHost);
 
             // hack the list of target in sequence

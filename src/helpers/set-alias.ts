@@ -1,4 +1,4 @@
-import { Util } from "./util";
+import { Util } from "/helpers/util";
 
 export class SetAlias {
     private static instance?: SetAlias;
@@ -21,8 +21,8 @@ export class SetAlias {
     }
 
     all(): void {
-        this.buyCmd();
         this.hackCmd();
+        this.buyCmd();
     }
 
     scriptCmd(aliasName: string, aliasCmd: string): void {

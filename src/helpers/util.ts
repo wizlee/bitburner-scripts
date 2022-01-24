@@ -1,4 +1,4 @@
-import { PORT } from "./const";
+import { PORT } from "/helpers/const";
 
 /**
  * @description
@@ -90,20 +90,23 @@ export class Util {
      */
     async scanServers(): Promise<boolean> {
         let success = true;
-        if (this.isServersScanned()) {
-            return success;
-        }
 
         // Scan all servers and keep track of the path to get to them
         this.ns.disableLog("scan");
         for (let i = 0, server; i < this.servers.length; i++) {
-            for (server of this.ns.scan(this.servers[i])) {
+            const directServers = this.ns.scan(this.servers[i]);
+            for (server of directServers) {
                 if (!this.servers.includes(server)) {
                     this.servers.push(server);
-                    this.routes[server] = this.routes[this.servers[i]].slice();
-                    this.routes[server].push(server);
+                }
+                if (server in this.routes === false) {
+                    this.routes[this.servers[i]] = directServers;
                 }
             }
+        }
+
+        if (this.isServersScanned()) {
+            return success;
         }
 
         if (!(await this.ns.tryWritePort(PORT.SERVERS, this.servers))) {
@@ -133,8 +136,10 @@ export class Util {
         ) {
             return false;
         } else {
-            this.servers = serversPortData as string[];
-            this.routes = routesPortData as Route;
+            const serversCache = serversPortData as string[];
+            if (this.servers.length != serversCache.length) {
+                return false;
+            }
             return true;
         }
     }
@@ -152,18 +157,26 @@ export class Util {
 
         const jumps = [];
 
-        let currentParent = this.getServerParent(serverToFind);
-        const isParentHome = () => {return currentParent === "home";};
-        while (!isParentHome) {
-            jumps.push(currentParent);
-            currentParent = this.getServerParent(currentParent);
-        }
+        try {
+            let currentParent = this.getServerParent(serverToFind);
+            const isParentHome = () => {
+                return currentParent === "home";
+            };
+            while (!isParentHome()) {
+                jumps.push(currentParent);
+                currentParent = this.getServerParent(currentParent);
+            }
 
-        jumps.unshift(serverToFind);
-        if (jumps.length > 1) {
-            pathToServer = `connect ${jumps.reverse().join("; connect ")}`;
-        } else {
-            pathToServer = `connect ${serverToFind}`;
+            jumps.unshift(serverToFind);
+            if (jumps.length > 1) {
+                pathToServer = `connect ${jumps.reverse().join("; connect ")}`;
+            } else {
+                pathToServer = `connect ${serverToFind}`;
+            }
+        } catch (e) {
+            if (e instanceof Error) {
+                pathToServer = e.message;
+            }
         }
 
         return pathToServer;
@@ -175,7 +188,9 @@ export class Util {
                 return parent;
             }
         }
-        throw new Error("Server parent not found. Are you sure the server exists?");
+        throw new Error(
+            "Server parent not found. Are you sure the server exists?"
+        );
     }
 
     terminalCommand(message: string): void {
@@ -184,18 +199,12 @@ export class Util {
             "terminal-input"
         ) as HTMLInputElement;
         if (terminalInput) {
-            terminalInput.value = message;
-            const handler = Object.keys(
-                terminalInput
-            )[1] as keyof HTMLInputElement;
+            const handler = Object.keys(terminalInput)[1] as keyof HTMLInputElement;
             (<HTMLInputElement>terminalInput[handler])?.onchange?.({
                 target: terminalInput,
             } as unknown as Event);
-            // (<HTMLInputElement>terminalInput[handler])?.onchange = (
-            //     e: InputEvent
-            // ) => {
-            //     e.currentTarget = terminalInput;
-            // };
+
+            terminalInput.value = message;
             (<HTMLInputElement>terminalInput[handler])?.onkeydown?.({
                 keyCode: 13,
                 preventDefault: () => null,

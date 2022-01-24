@@ -1,16 +1,9 @@
-import { SetAlias } from "./helpers/set-alias";
-import { HOME } from "./helpers/const";
-
+const HOME = "home";
 const FileList = "index.txt";
-const Watcher = "watcher.js";
+const Init = "init.js";
 
 export async function main(ns : NS) : Promise<void> {
     ns.disableLog("ALL");
-
-    ns.tprint(">>> Setting aliases...");
-    const setAlias = await SetAlias.getInstance(ns);
-    setAlias.all();
-    setAlias.scriptCmd("vsc", `run ${ns.getScriptName()}`);
 
     ns.tprint("");
     ns.tprint("==========================================================");
@@ -38,7 +31,7 @@ export async function main(ns : NS) : Promise<void> {
         lastChange = updateDate;
         ns.rm(FileList, HOME);
         ns.tprint(
-            `>>>>>> Downloading [${updateList.fileList.length}] source files`
+            `>>> Downloading [${updateList.fileList.length}] source files`
         );
 
         for (const idx in updateList.fileList) {
@@ -49,9 +42,9 @@ export async function main(ns : NS) : Promise<void> {
             await ns.sleep(100);
         }
 
-        if (!ns.isRunning(Watcher, HOME)) {
-            ns.tprint(">>>>>> Starting watcher...");
-            await ns.exec(Watcher, HOME);
+        if (!ns.isRunning(Init, HOME)) {
+            ns.tprint(">>> Starting init script...");
+            await ns.exec(Init, HOME);
         }
 
         ns.tprint("# Self updating complete");

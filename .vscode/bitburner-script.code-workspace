@@ -37,12 +37,15 @@
       {
         "name": "Launch BitBurner with Edge DevTools",
         "request": "launch",
-        "type": "vscode-edge-devtools.debug",
+        // "type": "vscode-edge-devtools.debug",
+        "type": "pwa-msedge",
         "url": "https://danielyxie.github.io/bitburner/",
-          "webRoot": "${workspaceRoot}/src",
-          "sourceMapPathOverrides": {
-              "http://localhost:8000/sources/*": "${workspaceRoot}/src/*"
-          }
+        "port": 9222,
+        "webRoot": "${workspaceRoot}/src",
+        "sourceMapPathOverrides": {
+            "http://localhost:8000/sources/*": "${workspaceRoot}/src/*"
+        },
+        "userDataDir": "C:\\Temp\\edge-dev-profile",
       },
       {
         "name": "Attach to Steam Bitburner Render Process",

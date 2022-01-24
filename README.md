@@ -24,6 +24,9 @@ npm run defs
 ## How to use this
 Write all your typescript source code in the `/src` directory
 
+Ensure you are using absolute paths to .js files in your imports or else the game will not recognize your import paths.  
+Example: use `import {} from '/lib/helpers.js'` instead of `import {} from './lib/helpers'` 
+
 To autocompile as you save, run `npm run watch` in a terminal
 
 To update your Netscript Definitions, run `npm run defs` in a terminal

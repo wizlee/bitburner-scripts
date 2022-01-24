@@ -56,7 +56,7 @@ export async function main(ns) {
     for (let i = 0; i < serversToRestart.length; ++i) {
         const destHost = serversToRestart[i];
         await ns.scp(hackScript, currHost, destHost);
-        ns.tprint(`>>>>>> copied hack script to Server: ${destHost}`);
+        ns.tprint(`>>> copied hack script to Server: ${destHost}`);
         // await ns.exec(deployScript, currHost, 1, destHost, hackScript, currTarget);
         await ns.exec(deployScript, currHost, 1, destHost, threadNum);
         await ns.sleep(4000); // to avoid wasting time on hacking empty n00dles
