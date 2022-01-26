@@ -56,8 +56,8 @@ async function purchaseServerUntilLimit(ns) {
         ns.print(`this script is designed to run in home. `);
         return;
     }
-    // const ram = ns.getPurchasedServerMaxRam(); // 2^20 as of 16/01/2022
-    const ram = 16384;
+    const ram = ns.getPurchasedServerMaxRam(); // 2^20 as of 16/01/2022
+    // const ram = 16384;
     let i = ns.getPurchasedServers().length;
 	const deployScript = "simple-distributed-hack.js";
     const hackScript =  "basic-hack.js";
@@ -67,7 +67,7 @@ async function purchaseServerUntilLimit(ns) {
     // if threadnum=100, you will have 25 * (2^20 / 240) ~= 109,226 scripts running at once.
     // This is excluding scripts running on home and non player own servers.
     // At the time of the hang, I have ~109,226 + ~3,000 = ~112,226 scripts running.
-    const threadNum = 200;
+    const threadNum = 400;
 
     const maxServerNum = ns.getPurchasedServerLimit();
     while (i < maxServerNum) {
@@ -80,7 +80,7 @@ async function purchaseServerUntilLimit(ns) {
             //  2. Deploy hacking script to the server using max thread possible
             //  3. Increment our iterator to indicate that we've bought a new server
             let destHost = await ns.purchaseServer(`${currHost}-${i}`, ram);
-            ns.tprint(`>>> Purchased Server: ${destHost}`);
+            ns.tprint(`>>>>>> Purchased Server: ${destHost}`);
             await ns.scp(hackScript, currHost, destHost);
             await ns.exec(deployScript, currHost, 1, destHost, threadNum);
             i++;
@@ -135,7 +135,7 @@ async function earlyGamePurchaseServerUntilLimit(ns) {
             //  2. Deploy hacking script to the server using max thread possible
             //  3. Increment our iterator to indicate that we've bought a new server
             let destHost = await ns.purchaseServer(`${currHost}-${i}`, ram);
-            ns.print(`>>> Purchased Server: ${destHost}`);
+            ns.print(`>>>>>> Purchased Server: ${destHost}`);
             await ns.scp(hackScript, currHost, destHost);
 
             // hack the list of target in sequence
